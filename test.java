@@ -1,68 +1,44 @@
-package edu.ilstu.it287.lab09.gegarc3;
+package edu.ilstu.it287.pgm09.gegarc3;
+import java.util.*;
 
-//person class that has a name and birthyear
-class Person 
-{
-	
-	String name;
-	int birthYear;
-	
-	public Person(String a, int b)
+class clock {
+	//returns the hours
+	public static int getHours(Calendar h)
 	{
-		this.name = a;
-		this.birthYear = b;
+		return h.get(Calendar.HOUR);
 	}
-	
-	public String toString()
+	//returns the minute
+	public static int getMinutes(Calendar m)
 	{
-		String output = "Name: " + name + " Birthdate: " + birthYear + "\n";
-		return output;
+		return m.get(Calendar.MINUTE);
+	}
+	//returns both 
+	public static String toString(Calendar s)
+	{
+		return getHours(s) + ":" + getMinutes(s);
 	}
 	
 }
-//extends person class but also gives them a major
-class student extends Person
+
+class alarm extends clock
 {
-	String major;
-	public student(String a, int b, String c)
+	//checks if the times are the same, if they are then the alarm rings
+	public static void setTime(int hours, int minutes, Calendar c)
 	{
-		//super constructor
-		super(a,b);
-		this.major = c;
-	}
-	//prints attributes
-	public String toString()
-	{
-		String output = "Name: " + name + " Birthdate: " + birthYear + " Salary: " + major + "\n";
-		return output;
-	}
-}
-//extends person but also gives them a salary
-class instructor extends Person
-{
-	int salary;
-	public instructor(String a, int b, int c)
-	{
-		//super constructor
-		super(a,b);
-		this.salary = c;
-	}
-	//prints attributes
-	public String toString()
-	{
-		String output = "Name: " + name + " Birthdate: " + birthYear + " Salary: " + salary + "\n";
-		return output;
+		if(getHours(c) == hours && getMinutes(c) == minutes)
+		{
+			System.out.println("Ring Ring Ring!");
+		}
 	}
 }
 
-public class test {
-	public static void main(String[]args)
+
+public class test extends alarm{
+	public static void main(String args[])
 	{
-		student s1 = new student("Allen", 2003, "Compsci");
-		System.out.println(s1.toString());
-		instructor i1 = new instructor("John", 1979, 150000);
-		System.out.println(i1.toString());
-		Person p1 = new Person("Gavin", 2003);
-		System.out.println(p1.toString());
+		 Calendar c = Calendar.getInstance();
+		 System.out.println(toString(c));
+		 setTime(9, 14, c);
+
 	}
 }

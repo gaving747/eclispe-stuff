@@ -1,56 +1,136 @@
-package edu.ilstu.it287.lab09.gegarc3;
-//gives object a name and salary
-class employee
+package edu.ilstu.it287.pgm09.gegarc3;
+import java.util.*;
+
+class appointment
 {
-	String name;
-	int salary;
-	public employee(String a, int b)
+	String event;
+	Calendar C;
+	//constructor, accepts event label and time, it is used for the three classes below
+	public appointment(String event, Calendar C)
 	{
-		this.name = a;
-		this.salary = b;
+		this.event = event;
+		this.C = C;
 	}
-}
-//extends employee, also gives them a department
-class manager extends employee
-{
-	String department;
-	public manager(String a, int b, String c)
+	//returns hours
+	public static int getHours(Calendar h)
 	{
-		//super constructor
-		super(a,b);
-		this.department = c;
+		return h.get(Calendar.HOUR);
+	}
+	//returns minutes
+	public static int getMinutes(Calendar h)
+	{
+		return h.get(Calendar.MINUTE);
+	}
+	//returns day
+	public static int getDay(Calendar h)
+	{
+		return h.get(Calendar.DAY_OF_MONTH);
+	}
+	//returns month
+	public static int getMonth(Calendar h)
+	{
+		return h.get(Calendar.MONTH);
 	}
 	
-	public String toString()
-	{
-		String output = "Name: " + name + " salary: " + salary + " department: " + department + "\n";
-		return output;
-	}
+	
 }
-//extends manager, has same attributes as manager
-class executive extends manager
+
+class oneTime extends appointment
 {
-	public executive(String a, int b, String c)
+	public oneTime(String event, Calendar C)
 	{
-		//super constructor
-		super(a,b,c);
+		super(event, C);
 	}
-	public String toString()
+	//checks of all attributes are equal to each other, if so then the appointments match 
+	public boolean checkAppointment(Calendar c)
 	{
-		String output = "Name: " + name + " salary: " + salary + " department: " + department + "\n";
-		return output;
+		if(getHours(c) == getHours(C) && getMinutes(c) == getMinutes(C) && getDay(c) == getDay(C) && getMonth(c) == getMonth(C))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
 
+class daily extends appointment
+{
+	public daily(String event, Calendar C)
+	{
+		super(event, C);
+	}
+	//checks if hours and minutes match, if so then the appointments match 
+	public boolean checkAppointment(Calendar c)
+	{
+		if(getHours(c) == getHours(C) && getMinutes(c) == getMinutes(C))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
 
+class monthly extends appointment
+{
+	public monthly(String event, Calendar C)
+	{
+		super(event, C);
+	}
+	//checks if the days match, if so then the appointments match
+	public boolean checkAppointment(Calendar c)
+	{
+		if(getDay(c) == getDay(C))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+}
 
-public class test2 {
+public class test2 
+{
 	public static void main(String[] args)
 	{
-		employee E1 = new employee("Allen", 100000);
-		manager M1 = new manager("Harvey", 200000, "technology");
-		executive Ex1 = new executive("James", 300000, "technology");
-		System.out.println(M1.toString());
-		System.out.println(Ex1.toString());
+		
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.HOUR,8);
+		cal.set(Calendar.MINUTE,30);
+		cal.set(Calendar.MONTH, 4);
+		cal.set(Calendar.DAY_OF_MONTH, 21);
+		oneTime O1 = new oneTime("Tennis", cal);
+		
+		Calendar cal2 = Calendar.getInstance();
+		cal2.set(Calendar.HOUR,9);
+		cal2.set(Calendar.MINUTE,25);
+		cal2.set(Calendar.MONTH, 5);
+		cal2.set(Calendar.DAY_OF_MONTH, 31);
+		daily O2 = new daily("Golf", cal2);
+		
+		Calendar cal3 = Calendar.getInstance();
+		cal3.set(Calendar.HOUR,10);
+		cal3.set(Calendar.MINUTE,30);
+		cal3.set(Calendar.MONTH, 10);
+		cal3.set(Calendar.DAY_OF_MONTH, 10);
+		monthly O3 = new monthly("Fishing", cal3);
+		// everything above goes into setting the appointments and labels
+		
+		//tests if the appointment below matches with the O1 appointment, it should return true because all attributes are the same
+		Calendar calTest1 = Calendar.getInstance();
+		calTest1.set(Calendar.HOUR,8);
+		calTest1.set(Calendar.MINUTE,30);
+		calTest1.set(Calendar.MONTH, 4);
+		calTest1.set(Calendar.DAY_OF_MONTH, 21);
+		
+		System.out.println(O1.checkAppointment(calTest1));
+
+		
 	}
 }
